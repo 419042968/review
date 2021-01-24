@@ -36,7 +36,16 @@ git init  // 在testDemo下自动生成隐藏的.git文件=>在内存里建立�
     (1)给远程仓库添加源地址。https://github.com/419042968/新建远程仓库名字.git
         [git remote add origin https://github.com/419042968/testDemo.git]
     (2)第一次将本地的仓库同步到远程仓库。
-        [git push -u origin master]
+        [git push -u origin master] // 如果当前分支与多个主机存在追踪关系，则可以使用 -u 参数指定一个默认主机，这样后面就可以不加
+            任何参数使用git push。【选用】
+            [git push origin master] // 第一次将本地的仓库同步到远程仓库。
+            // 如果远程分支被省略，如上则表示将本地分支推送到与之存在追踪关系的远程分支（通常两者同名），如果该远程分支不存在，则会被新建。
+            [git push origin ：refs/for/master] //如果省略本地分支名，则表示删除指定的远程分支，因为这等同于推送一个空的本地分支
+                到远程分支，等同于 git push origin --delete master
+            [git push origin] // 如果当前分支与远程分支存在追踪关系，则本地分支和远程分支都可以省略，将当前分支推送到origin主机的对应分支。
+            [git push] // 如果当前分支只有一个远程分支，那么主机名都可以省略，形如 git push，可以使用git branch -r ，查看远程的分支名。
+            [git branch -r] ，查看远程的分支名
+
         //工具命令
         [git remote -v]  查看远程库信息
         [git remote rm origin] (删除关联的origin的远程库)
@@ -49,3 +58,9 @@ git init  // 在testDemo下自动生成隐藏的.git文件=>在内存里建立�
       git commit -m "这是第六次提交"
     3.git status查看没有问题的话，nothing to commit, working tree clean
     4.git push  会直接提交  此时，OPEN SSH提示输入GitHub用户名和密码，输入后，提交成功。
+如果新人要加入此项目的开发：
+    1. cd 新同学电脑当前项目路径：比如/c/PHPnow/htdocs/28.版本控制工具git/新同学加入开发
+    2. 把我的远程仓库地址给他：https://github.com/419042968/review.git
+    3. 新同学[git clone https://github.com/419042968/review.git] ，就把我的远程仓库里的资源下载到他的项目路径下了
+    4. 如果我和他的进度不一样：我修改了文件，他在开发前就需要：[git pull] 拉取文件，即从远程仓库同步文件，即更新。
+        注：需要cd 新同学电脑当前项目路径/c/PHPnow/htdocs/28.版本控制工具git/新同学加入开发/testDemo
