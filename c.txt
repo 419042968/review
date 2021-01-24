@@ -1,9 +1,51 @@
-## git
-git config -global user.name "xxx"
-git config -global user.email "yyy"
-git add *
-git commit -m "commit all files"
-git status
-git checkout fileName
-git diff
-git log
+## git操作的具体步骤：本地磁盘【工作区】 =>  暂存区【虚拟仓库】  =>  GitHub仓库【远程仓库】
+
+// 本地配置gitHut用户名和邮箱
+cd 当前目录
+git config -global user.name "GitHub的用户名"
+git config -global user.email "GitHub的邮箱名"
+
+// 新建远程仓库：GitHub里点击右上角+下的new repository 新建远程仓库，名字要记住，添加远程仓库源地址(origin)时要用到
+
+// 建立暂存区【虚拟仓库】
+git init  // 在testDemo下自动生成隐藏的.git文件=>在内存里建立好虚拟仓库 // mac里看不到.git文件
+
+// 可以工作了。进行第一次提交，很繁琐。
+工作区 => 暂存区：
+[git add 文件名]
+[git add *] 提交所有的文件
+[git commit -m "这是第一次提交，提交了一个index.html和一个readme.md文件"] 告诉系统这一次提交了什么
+    // 工具命令
+    [git status] : 查看工作区的状态。提示：nothing to commit, working tree clean：没有内容可提交了，工作区干净了
+    [git checkout 文件名] ：从暂存区恢复文件到工作区。修改过的index.html恢复到没修改之前。
+    [git diff]查看修改了什么地方，显示：+ <h3>xxxxxxxx</h3>。
+    [git log]查看提交到暂存区的历史版本，可以恢复指定的版本文件到工作区。
+    [git reset --hard HEAD^(退回到上个版本) / HEAD^^(退回到前2个版本) / 版本号]
+
+暂存区 => 远程仓库
+1. 远程仓库给暂存区授权
+    (1)先生成ssh密匙：
+        [ssh-keygen -t rsa -C "GitHub邮箱地址"]  ，一直回车。
+    (2)找到密匙存放的隐藏文件：id_rsa.pub，在编辑器中打开(拖进来或vi id_rsa.pub)
+        vi/cat id_rsa.pub
+    (3)在GitHub账户中，配置此密匙：
+       <1>右键点击GitHub右上角用户下的setting，选择新标签打开
+       <2>点击SSH and GPG keys,点击新增密匙：New SSH key，把密匙粘贴进来，并起名标注是谁的电脑（工作区），点击add
+       <3>生成密匙，并自动给邮箱发送邮件
+2. 密匙生成后，才能将暂存区的数据提交到远程仓库。
+    (1)给远程仓库添加源地址。https://github.com/419042968/新建远程仓库名字.git
+        [git remote add origin https://github.com/419042968/testDemo.git]
+    (2)第一次将本地的仓库同步到远程仓库。
+        [git push -u origin master]
+        //工具命令
+        [git remote -v]  查看远程库信息
+        [git remote rm origin] (删除关联的origin的远程库)
+    (3)回到GitHub，刷新远程仓库，显示提交成功后所有文件。
+第一次提交到此完成。
+
+只要建立了暂存区和远程仓库的连接后，以后的提交就会很简单。
+    1.修改和新增了文件
+    2.git add *
+      git commit -m "这是第六次提交"
+    3.git status查看没有问题的话，nothing to commit, working tree clean
+    4.git push  会直接提交  此时，OPEN SSH提示输入GitHub用户名和密码，输入后，提交成功。
